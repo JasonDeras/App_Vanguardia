@@ -7,9 +7,14 @@ app.use(cors())
 const bcrypt=require("bcryptjs")
 const jwt=require("jsonwebtoken")
 const JWT_SECRET ="hvdvay6ert72839289()aiyg8t87qt72393293883uhefiuh78ttq3ifi78272jbkj?[]]pou89ywe";
-
+var nodemailer = require('nodemailer');
+//Data base URL connection
 const mongooseURL="mongodb+srv://travel_adviser:yZ3iXNCqxUeRLV6w@cluster0.jj2s29p.mongodb.net/?retryWrites=true&w=majority"
 
+app.set("view engine","ejs")
+app.use(express.urlencoded({extended: false}))
+
+//Verified that is connected to th databases
 mongoose.connect(mongooseURL,{
     useNewUrlParser:true
 }).then(()=>{console.log("connectado");}).catch(e=>console.log(e))
@@ -18,6 +23,7 @@ app.listen(5000,()=>{
     console.log("Server started")
 })
 
+//Bring the schema of the database
 require("./userDetails")
 const User = mongoose.model("UserInfo")
 
@@ -31,11 +37,11 @@ app.post("/register",async(req,res)=>{
         const oldUserUsername=await User.findOne({username})
         const oldUserName=await User.findOne({name})
         if(oldUserID){
-            res.json({error:"ID already exists"})
+            res.send({status:"ID already exists"})
         }else if(oldUserUsername){
-            res.json({error:"Username already exists"})
+            res.send({status:"Username already exists"})
         }else if(oldUserName){
-            res.json({error:"A user with that name already exists"})
+            res.send({status:"A user with that name already exists"})
         }else{ 
             await User.create({
                 ID,
@@ -43,7 +49,6 @@ app.post("/register",async(req,res)=>{
                 username,
                 password:incryptedPassword,
             });
-            res.send({status:"Succesful registration"})
         }
         
     } catch (error) {
@@ -83,5 +88,68 @@ app.post("/user-data", async(req,res)=>{
         })
     } catch (error) {
         
+    }
+})
+
+//User forget password
+app.post("/forgot", async(req,res)=>{
+    const{username}=req.body
+    try {
+        const oldUser= await User.findOne({username})
+        if (!oldUser) {
+            return res.json({status: "That username does not exist"})
+        }
+        const secret=JWT_SECRET+oldUser.password
+        const token =jwt.sign({username:oldUser.username, id:oldUser._id},secret, {expiresIn: "5m",})
+        const link=`http://localhost:5000/reset/${oldUser._id}/${token}`
+        console.log(link)
+    } catch (error) {
+        
+    }
+})
+
+//User Reset password
+app.get("/reset/:id/:token", async(req,res)=>{
+    const{id,token}=req.params
+    console.log(req.params)
+    const oldUser=await User.findOne({_id:id})
+    if (!oldUser) {
+        return res.json({status: "That username does not exist"})
+    }
+    const secret=JWT_SECRET+oldUser.password
+    try {
+        const verify=jwt.verify(token,secret)
+        res.render("index", {username:verify.username, status: "Univerified"})
+    } catch (error) {
+        res.send("Univerified")
+    }
+})
+
+//User Reset password confirm
+app.post("/reset/:id/:token", async(req,res)=>{
+    const{id,token}=req.params
+    const {password}=req.body
+
+    const oldUser=await User.findOne({_id:id})
+    if (!oldUser) {
+        return res.json({status: "That username does not exist"})
+    }
+    const secret=JWT_SECRET+oldUser.password
+    try {
+        const verify=jwt.verify(token,secret)
+        const incryptedPassword=await bcrypt.hash(password,10)
+        await User.updateOne(
+            {
+                _id:id
+            }, 
+            {
+                $set:{password:incryptedPassword
+                },
+            }
+        )
+        // res.json({status: "Password Updated"})
+        res.render("index", {username:verify.username, status:"Verified"})
+    } catch (error) {
+        res.send("Something went wrong")
     }
 })

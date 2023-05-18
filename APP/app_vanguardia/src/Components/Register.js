@@ -1,7 +1,7 @@
 import '../Styles/Register.css';
 import { Link } from 'react-router-dom'
 import React, {useState, useContext} from 'react';
-
+import Swal from 'sweetalert2'
 const Register = () => {
   
   const [entradasRegister,setentradasRegister] = useState({ID: '',nombre_completo: '', username:'', password:''});
@@ -24,7 +24,42 @@ const Register = () => {
         username:entradasRegister.username,
         password:entradasRegister.password,
       })
-    }).then((res)=>res.json()).then((data)=>{console.log(data,"userRegister")})
+    }).then((res)=>res.json()).then((data)=>{console.log(data,"userRegister")
+      if (data.status==="ID already exists") {
+        Swal.fire({
+          title: 'ID already exists',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        })
+      }else if(data.status==="Username already exists"){
+        Swal.fire({
+          title: 'Username already exists',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        })
+
+      }else if(data.status==="A user with that name already exists"){
+        Swal.fire({
+          title: 'A user with that name already exists',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        })
+      }else {
+        window.location.href="/sign-in"
+      }
+    })
   }
 
   return (
@@ -37,7 +72,7 @@ const Register = () => {
 		    <label>Full Name:</label>
 		    <input type = "text" id="userfullname" name="nombre_completo" value={nombre_completo} onChange={e => onChange(e)}/>
 
-		    <label >User:</label>
+		    <label >Username:</label>
 		    <input type = "text" id="username" name="username" value={username} onChange={e => onChange(e)}/>
 
 	  	  <label for="password">Password:</label>

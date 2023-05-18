@@ -25,6 +25,7 @@ const Login = () => {
       if (data.status==="ok") {
         alert("Seccesful Login")
         window.localStorage.setItem("token",data.data)
+        window.localStorage.setItem("logged-in",true)
         window.location.href="/profile"
       }
     })
@@ -39,9 +40,11 @@ const Login = () => {
         <label>Password:</label>
         <input type="password" id="userpassword" name="password" value={password} onChange={e => onChange(e)}/>
         <input type="submit" value="Login"/>
+        <Link to="/recoverpassword">Recover Password</Link>
         <p>Or login with:</p>
         <a href="#">Gmail</a> |
         <a href="#">Facebook</a>
+        
         <p style={{color: 'black'}}>
           Don't have an account?
            <Link to='/register'style={{color:'#E69C31'}}> Register now</Link>
