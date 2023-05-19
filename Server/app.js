@@ -10,7 +10,6 @@ const JWT_SECRET ="hvdvay6ert72839289()aiyg8t87qt72393293883uhefiuh78ttq3ifi7827
 var nodemailer = require('nodemailer');
 //Data base URL connection
 const mongooseURL="mongodb+srv://travel_adviser:yZ3iXNCqxUeRLV6w@cluster0.jj2s29p.mongodb.net/?retryWrites=true&w=majority"
-
 app.set("view engine","ejs")
 app.use(express.urlencoded({extended: false}))
 
@@ -151,5 +150,16 @@ app.post("/reset/:id/:token", async(req,res)=>{
         res.render("index", {username:verify.username, status:"Verified"})
     } catch (error) {
         res.send("Something went wrong")
+    }
+})
+
+//Delete User 
+app.post("/delete-user", async(req,res)=>{
+    const {userID}=req.body
+    try {
+        await User.findByIdAndDelete(userID)
+        res.send({status:"User deleted", data: "Deleted"})
+    } catch (error) {
+        console.log(error)
     }
 })
