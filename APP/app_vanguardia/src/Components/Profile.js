@@ -53,8 +53,8 @@ const Profile = () => {
         <p><strong>User ID:</strong> {userData.ID}</p>
         <p><strong>Username:</strong> {userData.username}</p>
         <p><strong>Full name:</strong> {userData.name}</p>
+        <button className="logout-btn" onClick={logout}>Logout</button><br/>
         <button className="logout-btn" onClick={()=>termindate(userData._id)}>Delete Account</button>
-        <button className="logout-btn" onClick={logout}>Logout</button>
       </div>
     </div>
   );

@@ -4,7 +4,8 @@ import Register from './Components/Register';
 import Profile from './Components/Profile';
 import PasswordRecovery from './Components/RecoverPasword';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
+import Menu from './Components/Menu';
+import Chatbot from './Components/Chatbot';
 const App = () => {
   const isloggedin=window.localStorage.getItem("logged-in")
   return (
@@ -14,8 +15,10 @@ const App = () => {
         <Route path="/" element={ isloggedin=="true" ?<Profile/>: <Login/>} />
           <Route  path="/sign-in" element={<Login />} />
           <Route  path="/recoverpassword" element={<PasswordRecovery />} />
-          <Route  path="/register" element={<Register/>} /> 
+          <Route  path="/chatbot" element={<Chatbot/>} /> 
+          <Route  path="/menu" element={<Menu/>} /> 
           <Route  path="/profile" element={<Profile/>} /> 
+          <Route  path="/register" element={<Register/>} />
         </Routes>
       </Router>
       

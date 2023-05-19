@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import '../Styles/Login.css';
 import { Link } from 'react-router-dom'
-
+import Swal from 'sweetalert2'
 const Login = () => {
   const [entradasLogin,setentradasLogin] = useState({username: '',password: ''});
   const onChange = (e) => setentradasLogin({...entradasLogin, [e.target.name]: e.target.value});
@@ -26,7 +26,27 @@ const Login = () => {
         alert("Seccesful Login")
         window.localStorage.setItem("token",data.data)
         window.localStorage.setItem("logged-in",true)
-        window.location.href="/profile"
+        window.location.href="/menu"
+      }else if(data.status==="error"){
+        Swal.fire({
+          title: 'Information invalid',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        })
+      }else if( data.status=="User does not exists"){
+        Swal.fire({
+          title: 'User does not exist',
+          showClass: {
+            popup: 'animate__animated animate__fadeInDown'
+          },
+          hideClass: {
+            popup: 'animate__animated animate__fadeOutUp'
+          }
+        })
       }
     })
   }

@@ -1,0 +1,41 @@
+.chat-bot-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .welcome-message {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .response {
+    width: 400px;
+    height: 200px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow-y: auto;
+  }
+  
+  .input-form {
+    display: flex;
+    align-items: center;
+  }
+  
+  input[type="text"] {
+    padding: 5px;
+    margin-right: 10px;
+  }
+  
+  button {
+    padding: 5px 10px;
+  }
+  

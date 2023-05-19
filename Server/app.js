@@ -60,14 +60,14 @@ app.post("/login-user", async(req,res)=>{
     const{username,password}=req.body
     const user=await User.findOne({username})
     if (!user) {
-        return res.json({error:"Fill in the info"})
+        return res.json({status:"User does not exists"})
     }
     if(await bcrypt.compare(password,user.password)){
         const token=jwt.sign({username:user.username},JWT_SECRET)
         if (res.status(201)) {
             return res.json({status: "ok", data:token})
         }else {
-            return res.json({error:"error"})
+            return res.json({status:"error"})
         }
     }
     res.json({status:"error",error:"Invalid Password"})
