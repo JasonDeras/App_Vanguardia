@@ -6,6 +6,7 @@ import PasswordRecovery from './Components/RecoverPasword';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Menu from './Components/Menu';
 import Chatbot from './Components/Chatbot';
+import UpdateInfo from './Components/UpdateInfo';
 const App = () => {
   const isloggedin=window.localStorage.getItem("logged-in")
   return (
@@ -18,6 +19,7 @@ const App = () => {
           <Route  path="/chatbot" element={<Chatbot/>} /> 
           <Route  path="/menu" element={<Menu/>} /> 
           <Route  path="/profile" element={<Profile/>} /> 
+          <Route  path="/update" element={<UpdateInfo/>} />
           <Route  path="/register" element={<Register/>} />
         </Routes>
       </Router>

@@ -48,6 +48,7 @@ app.post("/register",async(req,res)=>{
                 username,
                 password:incryptedPassword,
             });
+            res.send({status:"Sucess"})
         }
         
     } catch (error) {
@@ -163,3 +164,5 @@ app.post("/delete-user", async(req,res)=>{
         console.log(error)
     }
 })
+
+//Update user info

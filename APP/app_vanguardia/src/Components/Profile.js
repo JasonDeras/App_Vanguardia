@@ -1,5 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import '../Styles/Profile.css';
+import { Link } from 'react-router-dom'
 const Profile = () => {
   const [userData, setUserData]= useState("")
   
@@ -53,6 +54,7 @@ const Profile = () => {
         <p><strong>User ID:</strong> {userData.ID}</p>
         <p><strong>Username:</strong> {userData.username}</p>
         <p><strong>Full name:</strong> {userData.name}</p>
+        <Link to='/update'style={{color:'#E69C31'}}> Update information</Link> <br/>
         <button className="logout-btn" onClick={logout}>Logout</button><br/>
         <button className="logout-btn" onClick={()=>termindate(userData._id)}>Delete Account</button>
       </div>

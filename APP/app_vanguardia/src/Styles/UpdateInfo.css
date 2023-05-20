@@ -1,0 +1,25 @@
+.user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .profile-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .profile-info {
+    width: 400px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  
+  .profile-info div {
+    margin-bottom: 10px;
+  }
+  
+  .profile-info strong {
+    font-weight: bold;
+  }
