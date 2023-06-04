@@ -56,16 +56,7 @@ const Register = () => {
             popup: 'animate__animated animate__fadeOutUp'
           }
         })
-      }else if(data.status=="Sucess"){
-        Swal.fire({
-          title: 'Resgistration complete',
-          showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-          },
-          hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-          }
-        })
+      }else if(data.status==="Sucess"){
         window.location.href="/sign-in"
       }
     })

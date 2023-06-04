@@ -127,7 +127,7 @@ app.get("/reset/:id/:token", async(req,res)=>{
 
 //User Reset password confirm
 app.post("/reset/:id/:token", async(req,res)=>{
-    const{id,token}=req.params
+    const {id,token}=req.params
     const {password}=req.body
 
     const oldUser=await User.findOne({_id:id})
@@ -147,7 +147,6 @@ app.post("/reset/:id/:token", async(req,res)=>{
                 },
             }
         )
-        // res.json({status: "Password Updated"})
         res.render("index", {username:verify.username, status:"Verified"})
     } catch (error) {
         res.send("Something went wrong")
@@ -165,4 +164,38 @@ app.post("/delete-user", async(req,res)=>{
     }
 })
 
-//Update user info
+//Verified user valid info
+app.post("/user-verified", async(req,res)=>{
+    const {_id,ID,name,username}=req.body
+
+    try {
+        
+        const oldUserID= await User.findOne({ID})
+        const oldUserUsername=await User.findOne({username})
+        const oldUserName=await User.findOne({name})
+        if(oldUserID){
+            res.send({status:"ID already exists"})
+        }else if(oldUserUsername){
+            res.send({status:"Username already exists"})
+        }else if(oldUserName){
+            res.send({status:"A user with that name already exists"})
+        }else{
+            await User.updateOne(
+                {
+                    _id:_id
+                }, 
+                {
+                    $set:{
+                        ID:ID,
+                        name:name,
+                        username:username,
+                    },
+                }
+            )
+            res.send({status:"Sucess"})
+        }
+       
+    } catch (error) {
+        console.log(error)
+    }
+})
