@@ -26,7 +26,10 @@ app.listen(5000,()=>{
 require("./userDetails")
 const User = mongoose.model("UserInfo")
 
-//USer Registration 
+//Bring image schema form the database
+require("./imageDetails")
+const Images=mongoose.model("ImageDetails")
+//User Registration 
 app.post("/register",async(req,res)=>{
     const {ID,name,username,password}=req.body
     const incryptedPassword=await bcrypt.hash(password,10)
@@ -199,3 +202,25 @@ app.post("/user-verified", async(req,res)=>{
         console.log(error)
     }
 })
+
+//Image post to database
+app.post("/upload-image", async(req,res)=>{
+    const {base64}=req.body
+    try {
+        await Images.create({image:base64})
+        res.send({Status:"Image uploaded"})
+    } catch (error) {
+        res.send({Status:"Error",data:error})
+    }
+})
+
+//Image get from database
+app.get("/get-image", async(req,res)=>{
+    try {
+        await Images.find({}).then(data=>{res.send({status:"ok",data:data})})
+    } catch (error) {
+        
+    }
+})
+
+
